@@ -1,0 +1,47 @@
+<!--pages/eat-report/eat-report.wxml-->
+
+<view class="cu-bar bg-white solid-bottom">
+    <view class="action">
+        <text class="cuIcon-title text-green "></text>
+        <text class="text-cut" style="width:200px">营养分析 ({{eatScore}}分)</text>
+    </view>
+
+    <view class="action">
+        <picker mode="date" bindchange="bindDate" start="2019-06-01" end="2022-06-16" value="{{date}}" >
+            <button class="cu-btn bg-white shadow">{{date}}</button>
+        </picker>
+    </view>
+</view>
+
+<view class="flex bg-white ">
+    <view class="flex-sub bg-white padding-sm margin-xs radius">
+        <canvas canvas-id="calorieRingChart" class="canvas" ></canvas>
+    </view>
+</view>
+
+<view class="flex bg-white ">
+    <view class="flex-sub bg-white padding-sm margin-xs radius">
+        <canvas canvas-id="fatRingChart" class="canvas" ></canvas>
+    </view>
+</view>
+
+
+<view class="flex bg-white ">
+    <view class="flex-sub bg-white padding-sm margin-xs radius">
+        <canvas canvas-id="carbohydrateRingChart" class="canvas" ></canvas>
+    </view>
+</view>
+
+
+<view class="flex bg-white ">
+    <view class="flex-sub bg-white padding-sm margin-xs radius">
+        <canvas canvas-id="proteinRingChart" class="canvas" ></canvas>
+    </view>
+</view>
+
+
+<view class="flex bg-white ">
+    <view class="flex-sub bg-white padding-sm margin-xs radius">
+        <canvas canvas-id="cholesterolRingChart" class="canvas" ></canvas>
+    </view>
+</view>

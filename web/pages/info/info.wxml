@@ -1,0 +1,75 @@
+<!--pages/info.wxml-->
+
+<view class="bg-white padding">
+    <view class="cu-steps">
+        <view class="cu-item {{index>num?'':'text-green'}}" wx:for="{{numList}}" wx:key>
+            <text class="num" data-index="{{index + 1}}"></text>{{item.name}}
+        </view>
+    </view>
+</view>
+
+<view class="bg-white">
+
+    <view class="flex solid-bottom padding justify-center" hidden="{{num != 0}}">
+        <view class="padding-sm margin-xs radius text-center">
+            <picker-view style="width: 100%; height: 300px; " value="{{targetValue}}" bindchange="bindTargetChange">
+                <picker-view-column>
+                    <view wx:for="{{target}}"  wx:key>{{item}}</view>
+                </picker-view-column>
+            </picker-view>
+            <button class="cu-btn bg-green shadow" bindtap="numSteps">下一步</button>
+        </view>
+    </view>
+
+    <view class="flex solid-bottom padding justify-center" hidden="{{num != 1}}">
+        <view class="padding-sm margin-xs radius text-center">
+            <picker-view style="width: 100%; height: 300px; " value="{{heightValue}}" bindchange="bindHeightChange">
+                <picker-view-column>
+                    <view wx:for="{{height}}"  wx:key>{{item}}cm</view>
+                </picker-view-column>
+            </picker-view>
+            <button class="cu-btn bg-green shadow" bindtap="numSteps">下一步</button>
+        </view>
+    </view>
+
+    <view class="flex solid-bottom padding justify-center" hidden="{{num != 2}}">
+        <view class="padding-sm margin-xs radius text-center">
+            <picker-view style="width: 100%; height: 300px; " value="{{weightValue}}" bindchange="bindWeightChange">
+                <picker-view-column>
+                    <view wx:for="{{weight}}"  wx:key>{{item}}公斤</view>
+                </picker-view-column>
+            </picker-view>
+            <button class="cu-btn bg-green shadow" bindtap="numSteps">下一步</button>
+        </view>
+    </view>
+
+    <view class="flex solid-bottom padding justify-center" hidden="{{num != 3}}">
+        <view class="padding-sm margin-xs radius text-center">
+            <picker-view style="width: 100%; height: 300px; " value="{{ageValue}}" bindchange="bindAgeChange">
+                <picker-view-column>
+                    <view wx:for="{{age}}"  wx:key>{{item}}岁</view>
+                </picker-view-column>
+            </picker-view>
+            <button class="cu-btn bg-green shadow" bindtap="numSteps">下一步</button>
+        </view>
+    </view>
+
+    <view class="flex solid-bottom padding justify-center" hidden="{{num != 4}}">
+        <view class="padding-sm margin-xs radius text-center">
+            <view class="text-xsl padding">
+                <text class=" cuIcon-roundcheckfill text-green"></text>
+            </view>
+
+            <view hidden="{{wxInfoNo ? false:true}}">
+                <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="padding cu-btn bg-green shadow">获取头像性别</button>
+                <view wx:else>请升级微信版本</view>
+            </view>
+
+            <view hidden="{{wxInfoNo ? true:false}}">
+                <navigator url="/pages/myself/myself" open-type="switchTab">
+                    <button class="cu-btn bg-green shadow">个人中心</button>
+                </navigator>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/search/search",
+    "pages/food/food",
+    "pages/myself/myself",
+    "pages/info/info",
+    "pages/eat-history/eat-history",
+    "pages/eat-report/eat-report",
+    "pages/sport/sport"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "微信接口功能演示",
+    "backgroundColor": "#eeeeee",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "饮食",
+        "iconPath": "style/image/basics.png",
+        "selectedIconPath": "style/image/basics_cur.png"
+      },
+      {
+        "pagePath": "pages/sport/sport",
+        "text": "运动",
+        "iconPath": "style/image/basics.png",
+        "selectedIconPath": "style/image/basics_cur.png"
+      },
+      {
+        "pagePath": "pages/myself/myself",
+        "text": "我",
+        "iconPath": "style/image/about.png",
+        "selectedIconPath": "style/image/about_cur.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom"
+  },
+  "sitemapLocation": "sitemap.json"
+}

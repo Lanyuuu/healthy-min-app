@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "今日运动",
+  "usingComponents": {},
+  "enablePullDownRefresh":true,
+  "backgroundTextStyle": "dark"
+}

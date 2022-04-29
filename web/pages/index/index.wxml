@@ -1,0 +1,315 @@
+<!--index.wxml-->
+
+<view class="padding-xs bg-white">
+  <button class="cu-btn block round line-gray text-grey text-sm " bindtap="goToSearch">
+    <text class="cuIcon-search " style="margin-right: 10rpx;"></text>
+    搜索您感兴趣的食物
+  </button>
+</view>
+
+<view class="cu-bar bg-white solid-bottom ">
+  <view class="action">
+    <text class="cuIcon-title text-green"></text>今日目标
+  </view>
+
+  <view class="action">
+    <picker bindchange="bindSportChange" value="{{sportIndex}}" range="{{sports}}">
+      <button class="cu-btn bg-white shadow">{{sports[sportIndex]}}</button>
+    </picker>
+  </view>
+</view>
+
+<view class="flex p-xs  mb-sm ">
+  <view class="flex-sub bg-white padding-sm margin-xs radius">
+    <canvas canvas-id="columnCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>
+  </view>
+</view>
+
+
+<view class="cu-bar bg-white solid-bottom ">
+  <view class="action">
+    <text class="cuIcon-title text-green"></text>营养分析 ({{eat.eat_score}}分)
+  </view>
+
+  <view class="action">
+    <button class="cu-btn bg-white shadow" bindtap="goToEatReport">详情</button>
+  </view>
+</view>
+
+<view class="padding bg-white">
+  <view class="cu-progress round">
+    <view class="bg-green" style="width:{{eat.eat_score}}%;"></view>
+  </view>
+</view>
+
+<view class="cu-bar bg-white solid-bottom ">
+  <view class="action">
+    <text class="cuIcon-title text-green"></text>食用列表
+  </view>
+</view>
+
+
+<scroll-view scroll-x class="bg-white nav">
+  <view class="flex text-center">
+    <view class="cu-item flex-sub {{index==TabCur?'text-green cur':''}}" wx:for="{{tabs}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+      {{item}}
+    </view>
+  </view>
+</scroll-view>
+
+<view class="bg-white" hidden="{{TabCur != 0}}">
+  <view class="weui-panel__ft">
+    <navigator url="/pages/search/search?eat_type=0" >
+      <view class="weui-cell weui-cell_access weui-cell_link">
+        <view class="weui-cell__bd text-green">添加早餐</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </navigator>
+  </view>
+  <view class="cu-list menu">
+    <view wx:for="{{eat.breakfast}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=0">
+        <view class="weui-media-box weui-media-box_text">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
+          <view class="weui-media-box__desc">
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-green sm light">
+                热量
+              </view>
+              <view class="cu-tag line-green sm light">
+                {{item.calorie}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-cyan sm light">
+                脂肪
+              </view>
+              <view class="cu-tag line-cyan sm light">
+                {{item.fat}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-orange sm light">
+                碳水
+              </view>
+              <view class="cu-tag line-orange sm light">
+                {{item.carbohydrate}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-pink sm light">
+                蛋白质
+              </view>
+              <view class="cu-tag line-pink sm light">
+                {{item.protein}}
+              </view>
+            </view>
+          </view>
+          <view class="weui-media-box__info">
+            <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
+            <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-xs">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
+          </view>
+        </view>
+      </navigator>
+      <view class="move">
+        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="bg-white" hidden="{{TabCur != 1}}">
+  <view class="weui-panel__ft">
+    <navigator url="/pages/search/search?eat_type=1" >
+      <view class="weui-cell weui-cell_access weui-cell_link">
+        <view class="weui-cell__bd text-green">添加午餐</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </navigator>
+  </view>
+  <view class="cu-list menu">
+    <view wx:for="{{eat.lunch}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=1">
+        <view class="weui-media-box weui-media-box_text">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
+          <view class="weui-media-box__desc">
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-green sm light">
+                热量
+              </view>
+              <view class="cu-tag line-green sm light">
+                {{item.calorie}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-cyan sm light">
+                脂肪
+              </view>
+              <view class="cu-tag line-cyan sm light">
+                {{item.fat}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-orange sm light">
+                碳水
+              </view>
+              <view class="cu-tag line-orange sm light">
+                {{item.carbohydrate}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-pink sm light">
+                蛋白质
+              </view>
+              <view class="cu-tag line-pink sm light">
+                {{item.protein}}
+              </view>
+            </view>
+          </view>
+          <view class="weui-media-box__info">
+            <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
+            <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-xs">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
+          </view>
+        </view>
+      </navigator>
+      <view class="move">
+        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="bg-white" hidden="{{TabCur != 2}}">
+  <view class="weui-panel__ft">
+    <navigator url="/pages/search/search?eat_type=2" >
+      <view class="weui-cell weui-cell_access weui-cell_link">
+        <view class="weui-cell__bd text-green">添加晚餐</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </navigator>
+  </view>
+  <view class="cu-list menu">
+    <view wx:for="{{eat.dinner}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=2">
+        <view class="weui-media-box weui-media-box_text">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
+          <view class="weui-media-box__desc">
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-green sm light">
+                热量
+              </view>
+              <view class="cu-tag line-green sm light">
+                {{item.calorie}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-cyan sm light">
+                脂肪
+              </view>
+              <view class="cu-tag line-cyan sm light">
+                {{item.fat}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-orange sm light">
+                碳水
+              </view>
+              <view class="cu-tag line-orange sm light">
+                {{item.carbohydrate}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-pink sm light">
+                蛋白质
+              </view>
+              <view class="cu-tag line-pink sm light">
+                {{item.protein}}
+              </view>
+            </view>
+          </view>
+          <view class="weui-media-box__info ">
+            <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
+            <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-xs">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
+          </view>
+        </view>
+      </navigator>
+      <view class="move">
+        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="bg-white" hidden="{{TabCur != 3}}">
+  <view class="weui-panel__ft">
+    <navigator url="/pages/search/search?eat_type=3" >
+      <view class="weui-cell weui-cell_access weui-cell_link">
+        <view class="weui-cell__bd text-green">添加零食</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </navigator>
+  </view>
+  <view class="cu-list menu">
+    <view wx:for="{{eat.snacks}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=3">
+        <view class="weui-media-box">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
+          <view class="weui-media-box__desc">
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-green sm light">
+                热量
+              </view>
+              <view class="cu-tag line-green sm light">
+                {{item.calorie}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-cyan sm light">
+                脂肪
+              </view>
+              <view class="cu-tag line-cyan sm light">
+                {{item.fat}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-orange sm light">
+                碳水
+              </view>
+              <view class="cu-tag line-orange sm light">
+                {{item.carbohydrate}}
+              </view>
+            </view>
+
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-pink sm light">
+                蛋白质
+              </view>
+              <view class="cu-tag line-pink sm light">
+                {{item.protein}}
+              </view>
+            </view>
+          </view>
+          <view class="weui-media-box__info">
+            <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
+            <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-sm">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
+          </view>
+        </view>
+      </navigator>
+      <view class="move">
+        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+      </view>
+    </view>
+  </view>
+</view>
+

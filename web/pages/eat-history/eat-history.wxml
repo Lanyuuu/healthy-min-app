@@ -1,0 +1,98 @@
+<!--pages/eat-history/eat-history.wxml-->
+<view class="cu-timeline">
+
+    <block wx:for="{{result}}" wx:key="unique">
+        <navigator hover-class="none" url="/pages/eat-report/eat-report?date={{item.date}}">
+            <view class="cu-time text-black text-bold">{{item.date}}</view>
+        </navigator>
+
+        <block wx:for="{{item.breakfast}}" wx:for-item="food" wx:key>
+            <view class="cu-item text-grey cuIcon-evaluate_fill">
+                <view class="bg-gray shadow-blur content">
+                    <view class="cu-list menu radius">
+                        <view class="cu-item">
+                            <view class="content">
+                                <view class="text-grey">{{food.food_name}}</view>
+                                <view class="text-gray text-xs">
+                                    <text class="cuIcon-hot"></text> {{food.calorie}}热量={{food.unit_name}} * {{food.eat_num}}
+                                </view>
+                            </view>
+                            <view class="action">
+                                <view class="text-grey text-xs">{{food.eat_time}}</view>
+                                <view class="cu-tag round bg-green sm">早餐</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+
+        <block wx:for="{{item.lunch}}" wx:for-item="food" wx:key>
+            <view class="cu-item text-grey cuIcon-evaluate_fill">
+                <view class="bg-gray shadow-blur content">
+                    <view class="cu-list menu radius">
+                        <view class="cu-item">
+                            <view class="content">
+                                <view class="text-grey">{{food.food_name}}</view>
+                                <view class="text-gray text-xs">
+                                    <text class="cuIcon-hot"></text> {{food.calorie}}热量={{food.unit_name}} * {{food.eat_num}}
+                                </view>
+                            </view>
+                            <view class="action">
+                                <view class="text-grey text-xs">{{food.eat_time}}</view>
+                                <view class="cu-tag round bg-blue sm">午餐</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+
+        <block wx:for="{{item.dinner}}" wx:for-item="food" wx:key>
+            <view class="cu-item text-grey cuIcon-evaluate_fill">
+                <view class="bg-gray shadow-blur content">
+                    <view class="cu-list menu radius">
+                        <view class="cu-item">
+                            <view class="content">
+                                <view class="text-grey">{{food.food_name}}</view>
+                                <view class="text-gray text-xs">
+                                    <text class="cuIcon-hot"></text> {{food.calorie}}热量={{food.unit_name}} * {{food.eat_num}}
+                                </view>
+                            </view>
+                            <view class="action">
+                                <view class="text-grey text-xs">{{food.eat_time}}</view>
+                                <view class="cu-tag round bg-black sm">晚餐</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+
+        <block wx:for="{{item.snacks}}" wx:for-item="food" wx:key>
+            <view class="cu-item text-grey cuIcon-evaluate_fill">
+                <view class="bg-gray shadow-blur content">
+                    <view class="cu-list menu radius">
+                        <view class="cu-item">
+                            <view class="content">
+                                <view class="text-grey">{{food.food_name}}</view>
+                                <view class="text-gray text-xs">
+                                    <text class="cuIcon-hot"></text> {{food.calorie}}热量={{food.unit_name}} * {{food.eat_num}}
+                                </view>
+                            </view>
+                            <view class="action">
+                                <view class="text-grey text-xs">{{food.eat_time}}</view>
+                                <view class="cu-tag round bg-red sm">零食</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+
+    </block>
+</view>
+
+<view class="flex solid-bottom padding justify-center bg-white">
+    <button class="cu-btn line-grey round sm shadow" bindtap="addMore">{{addMoreText}}</button>
+</view>

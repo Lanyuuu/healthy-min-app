@@ -1,0 +1,113 @@
+<!--logs.wxml-->
+
+<view class="cu-bar bg-white solid-bottom">
+    <view class="action">
+        <text class="cuIcon-title text-green "></text>
+        <text class="text-cut" style="width:200px">{{result.name}}</text>
+    </view>
+    <view class="action">
+        <button class="cu-btn bg-white shadow text-cut" style="width:150px" bindtap="showModal" data-target="RadioModal">{{result.components[unitsCheckedIndex].unit_name}}</button>
+    </view>
+</view>
+
+<view class="cu-modal  {{modalName=='RadioModal'?'show':''}} bg-white" bindtap="hideModal">
+    <view class="cu-dialog">
+        <radio-group class="block" bindchange="unitsChange">
+            <view class="cu-list menu text-left">
+                <view class="cu-item" wx:for="{{result.components}}" wx:key>
+                    <label class="flex justify-between align-center flex-sub">
+                        <view class="flex-sub">{{item.unit_name}}</view>
+                        <radio class="round" value="{{index}}" checked="{{index==0 ? true:false}}"></radio>
+                    </label>
+                </view>
+            </view>
+        </radio-group>
+    </view>
+</view>
+
+
+<view class="padding flex text-center text-grey bg-white ">
+    <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-orange">{{result.components[unitsCheckedIndex].calorie}}<text class="text-xs">千卡</text></view>
+        <view class="margin-top-sm">热量</view>
+    </view>
+    <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-blue">{{result.components[unitsCheckedIndex].fat}}<text class="text-xs">克</text></view>
+        <view class="margin-top-sm">脂肪</view>
+    </view>
+    <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-green">{{result.components[unitsCheckedIndex].carbohydrate}}<text class="text-xs">克</text></view>
+        <view class="margin-top-sm">碳水物</view>
+    </view>
+    <view class="flex flex-sub flex-direction">
+        <view class="text-xxl text-yellow">{{result.components[unitsCheckedIndex].protein}}<text class="text-xs">克</text></view>
+        <view class="margin-top-sm">蛋白质</view>
+    </view>
+</view>
+
+<view class="padding flex text-center text-grey bg-white ">
+    <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-pink">{{result.components[unitsCheckedIndex].saturated_fat}}<text class="text-xs">克</text></view>
+        <view class="margin-top-sm">饱和脂肪</view>
+    </view>
+
+    <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-grey">{{result.components[unitsCheckedIndex].cholesterol}}<text class="text-xs">毫克</text></view>
+        <view class="margin-top-sm">胆固醇</view>
+    </view>
+    <view class="flex flex-sub flex-direction solid-right">
+        <view class="text-xxl text-brown">{{result.components[unitsCheckedIndex].sugar}}<text class="text-xs">克</text></view>
+        <view class="margin-top-sm">糖</view>
+    </view>
+    <view class="flex flex-sub flex-direction">
+        <view class="text-xxl text-purple">{{result.components[unitsCheckedIndex].fiber}}<text class="text-xs">克</text></view>
+        <view class="margin-top-sm">纤维</view>
+    </view>
+</view>
+
+
+<view class="padding bg-white">
+    <view class="cu-progress radius striped active">
+        <view class="bg-blue" style="width:{{result.components[unitsCheckedIndex].fat_calorie_rate}}%;">{{result.components[unitsCheckedIndex].fat_calorie_rate}}%</view>
+        <view class="bg-green" style="width:{{result.components[unitsCheckedIndex].carbohydrate_calorie_rate}}%;">{{result.components[unitsCheckedIndex].carbohydrate_calorie_rate}}%</view>
+        <view class="bg-yellow" style="width:{{result.components[unitsCheckedIndex].protein_calorie_rate}}%;">{{result.components[unitsCheckedIndex].protein_calorie_rate}}%</view>
+    </view>
+
+    <view class="solid-bottom text-sm padding text-center">
+        <text class="text-gray">热量分解： {{result.components[unitsCheckedIndex].fat_calorie_rate}}% 脂肪, {{result.components[unitsCheckedIndex].carbohydrate_calorie_rate}}% 碳水物, {{result.components[unitsCheckedIndex].protein_calorie_rate}}% 蛋白质.</text>
+    </view>
+</view>
+
+<view class="cu-bar bg-white solid-bottom" hidden="{{hiddenAddForm==0}}">
+    <view class="action">
+        <text class="cuIcon-title text-green"></text>列为饮食
+    </view>
+</view>
+
+<form bindsubmit="formSubmit" hidden="{{hiddenAddForm==0}}" report-submit="true">
+    <view class="cu-form-group ">
+        <view class="title">餐类</view>
+        <picker name="eat_type" value="{{eatTypeIndex}}" bindchange="eatTypeChange" range="{{eatTypes}}">
+            <view class="picker">
+            {{eatTypes[eatTypeIndex]}}
+            </view>
+        </picker>
+    </view>
+
+
+    <view class="cu-form-group">
+        <view class="title">食用数量</view>
+        <picker name="eat_num" value="{{eatNumIndex}}" bindchange="eatNumChange" range="{{eatNums}}">
+            <view class="picker">
+                {{eatNums[eatNumIndex]}}
+            </view>
+        </picker>
+    </view>
+
+
+<view class="cu-bar bg-white tabbar border shop">
+    <view class="btn-group">
+        <button class="cu-btn bg-green round shadow-blur" form-type="submit">记录食用</button>
+    </view>
+</view>
+</form>
