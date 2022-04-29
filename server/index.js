@@ -11,7 +11,8 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 
 require("./plugins/db")(app);
 require("./router/admin")(app);
+require("./router/web")(app);
 
-app.listen(7750, () => {
-  console.log("http://localhost:7750");
+app.listen(3000, () => {
+  console.log("http://localhost:3000");
 });

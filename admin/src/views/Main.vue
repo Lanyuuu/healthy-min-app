@@ -3,18 +3,18 @@
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu
         router
-        :default-openeds="['6']"
+        :default-openeds="['1']"
         unique-opened
         default-active="router.path"
       >
         <el-sub-menu index="1">
           <template #title>
-            <el-icon><message /></el-icon>分类管理
+            <el-icon><message /></el-icon>用户管理
           </template>
           <el-menu-item-group>
             <template #title>分类</template>
-            <el-menu-item index="/categories/create">新建分类</el-menu-item>
-            <el-menu-item index="/categories/list">分类列表</el-menu-item>
+            <el-menu-item index="/users/create">新建用户</el-menu-item>
+            <el-menu-item index="/users/list">用户列表</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-sub-menu index="2">

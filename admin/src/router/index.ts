@@ -3,8 +3,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Main from "../views/Main.vue";
 import Login from "../views/Login.vue";
 
-import CategoryEdit from "../views/CategoryEdit.vue";
-import CategoryList from "../views/CategoryList.vue";
+import UserEdit from "../views/UserEdit.vue";
+import UserList from "../views/UserList.vue";
 
 import ItemEdit from "../views/ItemEdit.vue";
 import ItemList from "../views/ItemList.vue";
@@ -31,11 +31,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "Main",
     component: Main,
     children: [
-      { path: "/categories/create", component: CategoryEdit },
-      { path: "/categories/list", component: CategoryList },
+      { path: "/users/create", component: UserEdit },
+      { path: "/users/list", component: UserList },
       {
-        path: "/categories/edit/:id",
-        component: CategoryEdit,
+        path: "/users/edit/:id",
+        component: UserEdit,
         props: true,
       },
 
@@ -68,5 +68,11 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isPublic && !localStorage.token) {
+    return next("/login");
+  }
+  next();
+});
 
 export default router;

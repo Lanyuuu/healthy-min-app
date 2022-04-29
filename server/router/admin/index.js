@@ -53,7 +53,7 @@ module.exports = (app) => {
 
   // 增删改查
   app.use(
-    "/admin/api/rest/:resource",
+    "/admin/api/:resource",
     async (req, res, next) => {
       const modelName = require("inflection").classify(req.params.resource);
       req.Model = require(`../../models/${modelName}`);

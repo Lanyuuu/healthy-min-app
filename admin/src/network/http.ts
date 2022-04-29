@@ -3,7 +3,7 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 
 const http = axios.create({
-  baseURL: "http://localhost:7750/admin/api",
+  baseURL: "http://localhost:3000/admin/api",
 });
 
 http.interceptors.request.use(

@@ -1,26 +1,25 @@
 <template>
-  <h1>分类列表</h1>
-  <el-scrollbar>
-    <el-table :data="data.items" style="width: 100%">
-      <el-table-column prop="_id" label="ID" />
-      <el-table-column prop="parent.name" label="上级分类" />
-      <el-table-column prop="name" label="分类名称" />
-      <el-table-column label="操作">
-        <template v-slot="scope">
-          <el-button size="mini" @click="editCategory(scope.row._id)">
-            编辑
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="removeCategory(scope.row)"
-          >
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-  </el-scrollbar>
+  <h1>物品列表</h1>
+  <el-table :data="data.items" style="width: 100%">
+    <el-table-column prop="openid" label="用户ID" />
+    <el-table-column prop="username" label="昵称" />
+    <el-table-column prop="age" label="年龄" />
+    <el-table-column prop="avatar" label="头像">
+      <template #default="scope">
+        <img :src="scope.row.avatar" style="height: 3rem" />
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template v-slot="scope">
+        <el-button size="mini" @click="editCategory(scope.row._id)">
+          编辑
+        </el-button>
+        <el-button size="mini" type="danger" @click="removeCategory(scope.row)">
+          删除
+        </el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 <!-- 
   1.使用TypeScript语言，
@@ -47,7 +46,7 @@ const data = reactive({
 // 异步获取列表数据
 async function getItem() {
   // 从服务端获取列表数据
-  const req = await http.get("/rest/categories");
+  const req = await http.get("/users");
   // 把列表数据保存到items，方便后续使用
   data.items = req.data;
 }
@@ -59,13 +58,13 @@ const router = useRouter();
 // 能跳转到需要编辑行，编辑页面方法
 function editCategory(id: string) {
   // 使用router跳转到行id所在的页面
-  router.push(`/categories/edit/${id}`);
+  router.push(`/users/edit/${id}`);
 }
 
 // 删除点击时所在行的方法
-async function removeCategory(row: { name: string; _id: string }) {
+async function removeCategory(row: { username: string; _id: string }) {
   // 弹出一个警告框
-  ElMessageBox.confirm(`你是否要删除 ${row.name} 分类?`, "警告", {
+  ElMessageBox.confirm(`你是否要删除 ${row.username} 用户?`, "警告", {
     // 把警告框确认文本为 确认
     confirmButtonText: "确认",
     // 警告框取消文本为 取消
@@ -76,7 +75,7 @@ async function removeCategory(row: { name: string; _id: string }) {
     // 若确认，则删除 -异步等待，不阻塞其他函数运行
     .then(async () => {
       // 等待服务器删除行
-      await http.delete(`/rest/categories/${row._id}`);
+      await http.delete(`/users/${row._id}`);
       // 更新列表
       getItem();
       // 弹出消息提示

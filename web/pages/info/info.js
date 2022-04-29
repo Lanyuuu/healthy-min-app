@@ -91,7 +91,7 @@ Page({
       console.log(params)
       wx.request({
         url:Api.userInfo(),
-        method:"POST",
+        method:"PUT",
         data:params,
         success(res) {
           console.log(res)
@@ -152,17 +152,13 @@ Page({
   },
   updateUserInfo(userInfo){
     var params = {
-      "nickname":userInfo.nickName,
-      "avatar_url":userInfo.avatarUrl,
-      "city":userInfo.city,
-      "province":userInfo.province,
-      "country":userInfo.country,
+      "username":userInfo.nickName,
+      "avatar":userInfo.avatarUrl,
       "gender":userInfo.gender,
-      "language":userInfo.language
     }
     wx.request({
       url:Api.userInfo(),
-      method:"POST",
+      method:"PUT",
       data:params,
       success(res) {
         console.log(res)

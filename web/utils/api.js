@@ -1,5 +1,4 @@
-//var HOST_URI = 'http://127.0.0.1:2018';
-var HOST_URI = 'https://eat666.club';
+var HOST_URI = 'http://localhost:3000/web/api';
 
 function _obj2uri(obj){
     if (obj == null) {
@@ -42,7 +41,7 @@ function _run(o) {
 }
 
 function _userInfo(o) {
-    return HOST_URI + "/user/info?" + _obj2uri(o);
+    return HOST_URI + "/user?" + _obj2uri(o);
 }
 
 function _scanCode(o) {
