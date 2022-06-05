@@ -2,9 +2,16 @@ var Api = require('../../utils/api.js');
 
 Page({
   data: {
-    userInfo:{weight:0,height:0,age:0,gender:1}
+    target: ["增肥", "养生", "减肥"],
+    userInfo: {
+      target: 0,
+      weight: 0,
+      height: 0,
+      age: 0,
+      gender: 1
+    }
   },
-  onShareAppMessage(o){
+  onShareAppMessage(o) {
 
   },
   onShow: function () {
@@ -14,7 +21,7 @@ Page({
       success(res) {
         console.log(res)
         that.setData({
-          userInfo:res.data
+          userInfo: res.data
         })
       }
     })

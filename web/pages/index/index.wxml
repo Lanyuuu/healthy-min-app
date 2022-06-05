@@ -38,7 +38,7 @@
 
 <view class="padding bg-white">
   <view class="cu-progress round">
-    <view class="bg-green" style="width:{{eat.eat_score}}%;"></view>
+    <view class="bg-green" style="width:{{eat.eat_score + '%'}};"></view>
   </view>
 </view>
 
@@ -51,7 +51,7 @@
 
 <scroll-view scroll-x class="bg-white nav">
   <view class="flex text-center">
-    <view class="cu-item flex-sub {{index==TabCur?'text-green cur':''}}" wx:for="{{tabs}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+    <view class="cu-item flex-sub {{index==TabCur?'text-green cur':''}}" wx:for="{{tabs}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
       {{item}}
     </view>
   </view>
@@ -59,7 +59,7 @@
 
 <view class="bg-white" hidden="{{TabCur != 0}}">
   <view class="weui-panel__ft">
-    <navigator url="/pages/search/search?eat_type=0" >
+    <navigator url="/pages/search/search?eat_type=0">
       <view class="weui-cell weui-cell_access weui-cell_link">
         <view class="weui-cell__bd text-green">添加早餐</view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
@@ -68,10 +68,10 @@
   </view>
   <view class="cu-list menu">
     <view wx:for="{{eat.breakfast}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
-      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=0">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.food_id}}&hidden_add_form=0">
         <view class="weui-media-box weui-media-box_text">
-          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
-          <view class="weui-media-box__desc">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.unit_name}}</view>
+          <!-- <view class="weui-media-box__desc">
             <view class="cu-capsule radius">
               <view class="cu-tag bg-green sm light">
                 热量
@@ -107,7 +107,7 @@
                 {{item.protein}}
               </view>
             </view>
-          </view>
+          </view> -->
           <view class="weui-media-box__info">
             <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
             <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-xs">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
@@ -115,7 +115,7 @@
         </view>
       </navigator>
       <view class="move">
-        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+        <view class="bg-red" bindtap="eatDelete" data-eat-type="{{item.eat_type}}" data-index="{{index}}">删除</view>
       </view>
     </view>
   </view>
@@ -123,7 +123,7 @@
 
 <view class="bg-white" hidden="{{TabCur != 1}}">
   <view class="weui-panel__ft">
-    <navigator url="/pages/search/search?eat_type=1" >
+    <navigator url="/pages/search/search?eat_type=1">
       <view class="weui-cell weui-cell_access weui-cell_link">
         <view class="weui-cell__bd text-green">添加午餐</view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
@@ -132,10 +132,10 @@
   </view>
   <view class="cu-list menu">
     <view wx:for="{{eat.lunch}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
-      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=1">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.food_id}}&hidden_add_form=1">
         <view class="weui-media-box weui-media-box_text">
-          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
-          <view class="weui-media-box__desc">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.unit_name}}</view>
+          <!-- <view class="weui-media-box__desc">
             <view class="cu-capsule radius">
               <view class="cu-tag bg-green sm light">
                 热量
@@ -171,7 +171,7 @@
                 {{item.protein}}
               </view>
             </view>
-          </view>
+          </view> -->
           <view class="weui-media-box__info">
             <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
             <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-xs">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
@@ -179,7 +179,7 @@
         </view>
       </navigator>
       <view class="move">
-        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+        <view class="bg-red" bindtap="eatDelete" data-eat-type="{{item.eat_type}}" data-index="{{index}}">删除</view>
       </view>
     </view>
   </view>
@@ -187,7 +187,7 @@
 
 <view class="bg-white" hidden="{{TabCur != 2}}">
   <view class="weui-panel__ft">
-    <navigator url="/pages/search/search?eat_type=2" >
+    <navigator url="/pages/search/search?eat_type=2">
       <view class="weui-cell weui-cell_access weui-cell_link">
         <view class="weui-cell__bd text-green">添加晚餐</view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
@@ -196,10 +196,10 @@
   </view>
   <view class="cu-list menu">
     <view wx:for="{{eat.dinner}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
-      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=2">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.food_id}}&hidden_add_form=2">
         <view class="weui-media-box weui-media-box_text">
-          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
-          <view class="weui-media-box__desc">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.unit_name}}</view>
+          <!-- <view class="weui-media-box__desc">
             <view class="cu-capsule radius">
               <view class="cu-tag bg-green sm light">
                 热量
@@ -235,7 +235,7 @@
                 {{item.protein}}
               </view>
             </view>
-          </view>
+          </view> -->
           <view class="weui-media-box__info ">
             <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
             <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-xs">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
@@ -243,7 +243,7 @@
         </view>
       </navigator>
       <view class="move">
-        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+        <view class="bg-red" bindtap="eatDelete" data-eat-type="{{item.eat_type}}" data-index="{{index}}">删除</view>
       </view>
     </view>
   </view>
@@ -251,7 +251,7 @@
 
 <view class="bg-white" hidden="{{TabCur != 3}}">
   <view class="weui-panel__ft">
-    <navigator url="/pages/search/search?eat_type=3" >
+    <navigator url="/pages/search/search?eat_type=3">
       <view class="weui-cell weui-cell_access weui-cell_link">
         <view class="weui-cell__bd text-green">添加零食</view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
@@ -260,10 +260,10 @@
   </view>
   <view class="cu-list menu">
     <view wx:for="{{eat.snacks}}" wx:key="unique" class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
-      <navigator hover-class="none" url="/pages/food/food?id={{item.fid}}&hidden_add_form=3">
+      <navigator hover-class="none" url="/pages/food/food?id={{item.food_id}}&hidden_add_form=3">
         <view class="weui-media-box">
-          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.food_name}}</view>
-          <view class="weui-media-box__desc">
+          <view class="weui-media-box__title weui-media-box__title_in-text">{{item.unit_name}}</view>
+          <!-- <view class="weui-media-box__desc">
             <view class="cu-capsule radius">
               <view class="cu-tag bg-green sm light">
                 热量
@@ -299,7 +299,7 @@
                 {{item.protein}}
               </view>
             </view>
-          </view>
+          </view> -->
           <view class="weui-media-box__info">
             <view class="weui-media-box__info__meta text-xs">{{item.eat_time}}</view>
             <view class="weui-media-box__info__meta weui-media-box__info__meta_extra text-sm">食用量: {{item.unit_name}} * {{item.eat_num}}</view>
@@ -307,9 +307,8 @@
         </view>
       </navigator>
       <view class="move">
-        <view class="bg-red" bindtap="eatDelete" data-eat-id="{{item.eat_id}}">删除</view>
+        <view class="bg-red" bindtap="eatDelete" data-eat-type="{{item.eat_type}}" data-index="{{index}}">删除</view>
       </view>
     </view>
   </view>
 </view>
-

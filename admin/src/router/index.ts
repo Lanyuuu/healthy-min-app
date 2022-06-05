@@ -6,17 +6,14 @@ import Login from "../views/Login.vue";
 import UserEdit from "../views/UserEdit.vue";
 import UserList from "../views/UserList.vue";
 
-import ItemEdit from "../views/ItemEdit.vue";
-import ItemList from "../views/ItemList.vue";
+import RankEdit from "../views/RankEdit.vue";
+import RankList from "../views/RankList.vue";
 
-import HeroEdit from "../views/HeroEdit.vue";
-import HeroList from "../views/HeroList.vue";
+import FoodEdit from "../views/FoodEdit.vue";
+import FoodList from "../views/FoodList.vue";
 
-import ArticleEdit from "../views/ArticleEdit.vue";
-import ArticleList from "../views/ArticleList.vue";
-
-import AdEdit from "../views/AdEdit.vue";
-import AdList from "../views/AdList.vue";
+import SportEdit from "../views/SportEdit.vue";
+import SportList from "../views/SportList.vue";
 
 import AdminUserEdit from "../views/AdminUserEdit.vue";
 import AdminUserList from "../views/AdminUserList.vue";
@@ -39,21 +36,17 @@ const routes: Array<RouteRecordRaw> = [
         props: true,
       },
 
-      { path: "/item/create", component: ItemEdit },
-      { path: "/item/list", component: ItemList },
-      { path: "/item/edit/:id", component: ItemEdit, props: true },
+      { path: "/ranks/create", component: RankEdit },
+      { path: "/ranks/list", component: RankList },
+      { path: "/ranks/edit/:id", component: RankEdit, props: true },
 
-      { path: "/heroes/create", component: HeroEdit },
-      { path: "/heroes/list", component: HeroList },
-      { path: "/heroes/edit/:id", component: HeroEdit, props: true },
+      { path: "/foods/create", component: FoodEdit },
+      { path: "/foods/list", component: FoodList },
+      { path: "/foods/edit/:id", component: FoodEdit, props: true },
 
-      { path: "/articles/create", component: ArticleEdit },
-      { path: "/articles/list", component: ArticleList },
-      { path: "/articles/edit/:id", component: ArticleEdit, props: true },
-
-      { path: "/ads/create", component: AdEdit },
-      { path: "/ads/list", component: AdList },
-      { path: "/ads/edit/:id", component: AdEdit, props: true },
+      { path: "/sports/create", component: SportEdit },
+      { path: "/sports/list", component: SportList },
+      { path: "/sports/edit/:id", component: SportEdit, props: true },
 
       { path: "/admin_users/create", component: AdminUserEdit },
       { path: "/admin_users/list", component: AdminUserList },

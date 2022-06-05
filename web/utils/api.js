@@ -13,11 +13,11 @@ function _obj2uri(obj){
 }
 
 function _search(o) {
-    return  HOST_URI + '/food/search?' + _obj2uri(o);
+    return  HOST_URI + '/food?' + _obj2uri(o);
 }
 
 function _foodInfo(o) {
-    return HOST_URI + "/food/info?" + _obj2uri(o);
+    return HOST_URI + "/food?" + _obj2uri(o);
 }
 
 function _eat(o) {
@@ -25,11 +25,11 @@ function _eat(o) {
 }
 
 function _eatDates(o) {
-    return HOST_URI + "/eat/dates?" + _obj2uri(o);
+    return HOST_URI + "/dates?" + _obj2uri(o);
 }
 
 function _wxLogin(o) {
-    return HOST_URI + "/wx/login?" + _obj2uri(o);
+    return HOST_URI + "/login?" + _obj2uri(o);
 }
 
 function _exercise(o) {
@@ -49,11 +49,11 @@ function _scanCode(o) {
 }
 
 function _eatRank(o) {
-    return HOST_URI + "/eat/rank?" + _obj2uri(o);
+    return HOST_URI + "/rank?" + _obj2uri(o);
 }
 
 function _eatCurrent(o) {
-    return HOST_URI + "/eat/current?" + _obj2uri(o);
+    return HOST_URI + "/current?" + _obj2uri(o);
 }
 
 module.exports = {

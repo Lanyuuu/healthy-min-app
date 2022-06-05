@@ -19,45 +19,35 @@
         </el-sub-menu>
         <el-sub-menu index="2">
           <template #title>
-            <el-icon><message /></el-icon>物品管理
+            <el-icon><message /></el-icon>推荐饮食管理
           </template>
           <el-menu-item-group>
-            <template #title>物品</template>
-            <el-menu-item index="/item/create">新建物品</el-menu-item>
-            <el-menu-item index="/item/list">物品列表</el-menu-item>
+            <template #title>推荐饮食</template>
+            <el-menu-item index="/ranks/create">新建推荐饮食</el-menu-item>
+            <el-menu-item index="/ranks/list">推荐饮食列表</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-sub-menu index="3">
           <template #title>
-            <el-icon><message /></el-icon>英雄管理
+            <el-icon><message /></el-icon>食物管理
           </template>
           <el-menu-item-group>
             <template #title>英雄</template>
-            <el-menu-item index="/heroes/create">新建英雄</el-menu-item>
-            <el-menu-item index="/heroes/list">英雄列表</el-menu-item>
+            <el-menu-item index="/foods/create">新建食物</el-menu-item>
+            <el-menu-item index="/foods/list">食物列表</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-sub-menu index="4">
           <template #title>
-            <el-icon><message /></el-icon>文章管理
+            <el-icon><message /></el-icon>运动管理
           </template>
           <el-menu-item-group>
-            <template #title>文章</template>
-            <el-menu-item index="/articles/create">新建文章</el-menu-item>
-            <el-menu-item index="/articles/list">文章列表</el-menu-item>
+            <template #title>运动</template>
+            <el-menu-item index="/sports/create">新建运动</el-menu-item>
+            <el-menu-item index="/sports/list">运动列表</el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-sub-menu index="5">
-          <template #title>
-            <el-icon><message /></el-icon>广告管理
-          </template>
-          <el-menu-item-group>
-            <template #title>广告</template>
-            <el-menu-item index="/ads/create">新建广告</el-menu-item>
-            <el-menu-item index="/ads/list">广告列表</el-menu-item>
-          </el-menu-item-group>
-        </el-sub-menu>
-        <el-sub-menu index="6">
           <template #title>
             <el-icon><message /></el-icon>管理员账户
           </template>

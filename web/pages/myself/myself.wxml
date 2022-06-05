@@ -8,7 +8,7 @@
   <view class="padding flex text-center text-grey bg-white shadow-warp">
     <view class="flex flex-sub flex-direction solid-right">
       <navigator hover-class="none" url="/pages/info/info?num=0">
-        <view class="text-xxl text-purple">减肥</view>
+        <view class="text-xxl text-purple">{{target[userInfo.target]}}</view>
         <view class="margin-top-sm">
           <text class="cuIcon-hot"></text>目标
         </view>

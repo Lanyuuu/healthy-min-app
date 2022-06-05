@@ -27,8 +27,8 @@
       {
         "pagePath": "pages/sport/sport",
         "text": "运动",
-        "iconPath": "style/image/basics.png",
-        "selectedIconPath": "style/image/basics_cur.png"
+        "iconPath": "style/image/plugin.png",
+        "selectedIconPath": "style/image/plugin_cur.png"
       },
       {
         "pagePath": "pages/myself/myself",

@@ -3,23 +3,24 @@ var Api = require('../../utils/api.js');
 var columnChart = null;
 var targetData = [0,0,0,0];
 var currentData = [0,0,0,0];
+var runDate = ["01/01","01/01","01/01","01/01"];
 
 Page({
   data: {
     //运动列表
-    sports: ["静坐", "轻度运动", "中度运动", "重度运动","高强度运动"],
-    sportsVal: [1.2, 1.37, 1.55, 1.73, 1.9],
+    sports: [1000, 2000, 3000, 4000,5000,6000,7000,8000,9000,10000,11000],
     sportIndex:0,
     //饮食类型
-    tabs: ["早餐", "午餐", "晚餐", "零食"],
+    tabs: ["今天的一天"],
     //列表切换
     TabCur: 0,
     //食用列表
-    eat:{date:"",uid:"",eat_score:0,breakfast:[],lunch:[],dinner:[],snacks:[],score:{},exercise:1.37},
+    eat:{eat_score:0,sport:[],score:{},exercise:5000},
 
     ListTouchStart:0,
     ListTouchDirection:"",
     modalName:null,
+    code: "",
   },
   tabSelect(e) {
     this.setData({
@@ -35,93 +36,75 @@ Page({
       console.log("onShow no openid")
       return
     }
-    this.indexData()
-  },
-  onLoad:function (e) {
-    var openid = wx.getStorageSync("openid")
-    if (openid !== "") {
-      return
-    }
-    //登录
     var that = this
     wx.login({
-      success (res) {
+      success(res) {
         //请求后端登录
-        wx.request({
-          url: Api.wxLogin({code: res.code}),
-          success: function(res) {
-            console.log(res.data)
-            wx.setStorageSync("openid", res.data.openid)
-            //新用户引导填充信息
-            if (res.data.height===0 || res.data.weight===0) {
-              wx.redirectTo({url:"/pages/info/info"})
-            }else{
-              if(that.data.eat.uid === "") {
-                //登录成功获取首页数据. 防止和onShow重复拉取，因为先执行onShow
-                that.indexData()
-              }
-            }
-          },
-          fail(res) {
-            wx.showToast({
-              title:"服务器出错",
-              icon:"none",
-            })
-          }
+        that.setData({
+          code: res.code,
         })
       },
       fail(res) {
         console.log(res)
       }
     })
+    this.indexData()
+  },
+  onLoad:function (e) {
+    
   },
   indexData: function () {
     //获取数据
     var that = this
-    wx.request({
-      url:Api.Eat(),
-      success(res) {
-        if (res.data.error_code) {
-          console.log("request error ",res.data)
-          return
-        }
-
-        var tempTabs = ["早餐", "午餐", "晚餐", "零食"]
-        if (res.data.breakfast.length > 0) {
-          tempTabs[0] += "("+ res.data.breakfast.length +")"
-        }
-        if (res.data.lunch.length > 0) {
-          tempTabs[1] += "("+ res.data.lunch.length +")"
-        }
-        if (res.data.dinner.length > 0) {
-          tempTabs[2] += "("+ res.data.dinner.length +")"
-        }
-        if (res.data.snacks.length > 0) {
-          tempTabs[3] += "("+ res.data.snacks.length +")"
-        }
-
-        that.setData({
-          eat:res.data,
-          sportIndex:that.data.sportsVal.indexOf(res.data.exercise),
-          tabs:tempTabs
-        })
-        targetData = [res.data.score.calorie_target, res.data.score.fat_target, res.data.score.carbohydrate_target, res.data.score.protein_target]
-        currentData = [res.data.score.calorie_today, res.data.score.fat_today, res.data.score.carbohydrate_today, res.data.score.protein_today]
-
-        //绘图
-        that.canvas()
-
-        //停止下拉刷新动画
-        wx.stopPullDownRefresh()
-      },
-      fail(res) {
-        console.log(res)
-        wx.showToast({
-          title:"服务器出错",
-          icon:"none"
+    wx.getWeRunData({
+      success (res) {
+        // 拿 encryptedData 到开发者后台解密开放数据
+        const runData = {
+          encryptedData: res.encryptedData,
+          iv: res.iv,
+          code: that.data.code,
+        };
+        wx.request({
+          url:Api.Run(),
+          method: "POST",
+          data: runData,
+          success(res) {
+            if (res.data.error_code) {
+              console.log("request error ",res.data)
+              return
+            }
+    
+            var tempTabs = ["今天的一天"]
+            if (res.data.sport.length > 0) {
+              tempTabs[0] += "("+ res.data.sport.length +")"
+            }
+    
+            that.setData({
+              eat:res.data,
+              sportIndex:that.data.sports.indexOf(res.data.exercise),
+              tabs:tempTabs
+            })
+            targetData = [res.data.score.first_target, res.data.score.second_target, res.data.score.third_target, res.data.score.fourth_target]
+            currentData = [res.data.score.first_step, res.data.score.second_step, res.data.score.third_step, res.data.score.fourth_step]
+            runDate = [res.data.score.first_date, res.data.score.second_date, res.data.score.third_date, res.data.score.fourth_date]
+    
+            //绘图
+            that.canvas()
+    
+            //停止下拉刷新动画
+            wx.stopPullDownRefresh()
+          },
+          fail(res) {
+            console.log(res)
+            wx.showToast({
+              title:"服务器出错",
+              icon:"none"
+            })
+          }
         })
       }
     })
+    
   },
   onPullDownRefresh: function() {
     console.log("pull down")
@@ -131,7 +114,7 @@ Page({
     this.setData({
       sportIndex:e.detail.value
     })
-    var exerVal = this.data.sportsVal[e.detail.value]
+    var exerVal = this.data.sports[e.detail.value]
     wx.request({
       url:Api.Exercise(),
       method:"POST",
@@ -163,15 +146,15 @@ Page({
       canvasId: 'columnCanvas',
       type: 'column',
       animation: true,
-      categories: ['总热量', '脂肪', '碳水物', '蛋白质'],
+      categories: runDate,
       series: [{
-        name: '目标营养',
+        name: '目标步数',
         data: targetData,
         format: function (val, name) {
           return val;
         }
       }, {
-        name: '今日营养',
+        name: '每日步数',
         data: currentData,
         format: function (val, name) {
           return val;
@@ -181,7 +164,7 @@ Page({
         format: function (val) {
           return val;
         },
-        title: '今日饮食数据',
+        title: '四日运动步数',
         min: 0
       },
       xAxis: {
@@ -230,19 +213,25 @@ Page({
     })
   },
   eatDelete(e) {
-    console.log("del",e)
+    console.log("del", e)
     var that = this
+    const {
+      index
+    } = e.target.dataset;
+    const eatData = that.data.eat;
+    eatData.sport.splice(index, 1);
     wx.request({
-      url:Api.Eat({eat_id:e.currentTarget.dataset.eatId}),
-      method:"DELETE",
+      url: Api.Eat(),
+      method: "PUT",
+      data: eatData,
       success(res) {
         console.log(res)
         that.indexData()
       },
       fail(res) {
         wx.showToast({
-          title:"服务器出错",
-          icon:"none",
+          title: "服务器出错",
+          icon: "none",
         })
       }
     })

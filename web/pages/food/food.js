@@ -10,7 +10,7 @@ Page({
     eatNumIndex:0,
     time: '08:00',
     unitsCheckedIndex:0,
-    result : {id:0,name:"未知",components:[],href:""},
+    result : {id:0,name:"未知",components:[],href:"",type:0},
   },
   TimeChange(e) {
     this.setData({
@@ -46,13 +46,13 @@ Page({
     console.log(e)
     //添加进食
     var params = {
-      "food_id":parseInt(this.data.foodId),
+      "food_id": this.data.foodId,
       "unit_name": this.data.result.components[this.data.unitsCheckedIndex].unit_name,
-      "unit_id": parseInt(this.data.result.components[this.data.unitsCheckedIndex].id),
+      "unit_id": this.data.result.components[this.data.unitsCheckedIndex]._id,
       "eat_type":parseInt(e.detail.value.eat_type),
       "eat_time":"08:00",
       "eat_num":parseInt(e.detail.value.eat_num)+1,
-      "form_id":e.detail.formId
+      "type":this.data.result.type
     }
     console.log("params",params)
     wx.showLoading({
@@ -62,7 +62,7 @@ Page({
     wx.request({
       url: Api.Eat(),
       data:params,
-      method:"POST",
+      method:"PUT",
       dataType:"json",
       success: function(res) {
         console.log(res.data)

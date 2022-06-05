@@ -46,7 +46,7 @@ const data = reactive({
 // 异步获取列表数据
 async function getItem() {
   // 从服务端获取列表数据
-  const req = await http.get("/users");
+  const req = await http.get("/currency/users");
   // 把列表数据保存到items，方便后续使用
   data.items = req.data;
 }
@@ -75,7 +75,7 @@ async function removeCategory(row: { username: string; _id: string }) {
     // 若确认，则删除 -异步等待，不阻塞其他函数运行
     .then(async () => {
       // 等待服务器删除行
-      await http.delete(`/users/${row._id}`);
+      await http.delete(`/currency/users/${row._id}`);
       // 更新列表
       getItem();
       // 弹出消息提示

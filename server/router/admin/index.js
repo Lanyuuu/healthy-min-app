@@ -53,7 +53,7 @@ module.exports = (app) => {
 
   // 增删改查
   app.use(
-    "/admin/api/:resource",
+    "/admin/api/currency/:resource",
     async (req, res, next) => {
       const modelName = require("inflection").classify(req.params.resource);
       req.Model = require(`../../models/${modelName}`);
@@ -76,10 +76,14 @@ module.exports = (app) => {
   );
 
   app.post("/admin/api/login", async (req, res) => {
-    console.log(1111);
-    console.log(req.body);
     const { username, password } = req.body;
-    const user = await AdminUser.findOne({ username });
+    if(username === "admin") {
+      let FirstUser = await AdminUser.findOne({ username });
+      if(!FirstUser) {
+        await AdminUser.create({ username: admin, password: 123456 });
+      }
+    }
+    let user = await AdminUser.findOne({ username });
     if (!user) {
       return res.status(422).send({
         message: "用户或者密码错误!",

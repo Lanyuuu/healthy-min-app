@@ -28,7 +28,7 @@
         </view>
 
         <view class="weui-cells searchbar-result" wx:for="{{result.list}}" wx:key="unique">
-            <navigator url="/pages/food/food?id={{item.id}}&eat_type={{eatType}}" class="weui-cell" hover-class="weui-cell_active">
+            <navigator url="/pages/food/food?id={{item._id}}&eat_type={{eatType}}" class="weui-cell" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">
                     <view>{{item.name}}</view>
                 </view>
@@ -51,7 +51,7 @@
 
         <view class="flex flex-wrap" hidden="{{eatRank.length == 0}}">
             <view class="text-sm padding-sm">
-                <text class="text-grey text-bold">热搜排行榜</text>
+                <text class="text-grey text-bold">推荐饮食</text>
             </view>
         </view>
 

@@ -3,9 +3,9 @@
   <el-table :data="data.items" style="width: 100%">
     <el-table-column prop="_id" label="ID" />
     <el-table-column prop="username" label="昵称" />
-    <el-table-column prop="avtar" label="头像">
+    <el-table-column prop="avatar" label="头像">
       <template #default="scope">
-        <img :src="scope.row.avtar" style="height: 3rem" />
+        <img :src="scope.row.avatar" style="height: 3rem" />
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -45,7 +45,7 @@ const data = reactive({
 // 异步获取列表数据
 async function getItem() {
   // 从服务端获取列表数据
-  const req = await http.get("/rest/admin_users");
+  const req = await http.get("/currency/admin_users");
   // 把列表数据保存到items，方便后续使用
   data.items = req.data;
 }
@@ -74,7 +74,7 @@ async function removeCategory(row: { username: string; _id: string }) {
     // 若确认，则删除 -异步等待，不阻塞其他函数运行
     .then(async () => {
       // 等待服务器删除行
-      await http.delete(`/rest/admin_users/${row._id}`);
+      await http.delete(`/currency/admin_users/${row._id}`);
       // 更新列表
       getItem();
       // 弹出消息提示

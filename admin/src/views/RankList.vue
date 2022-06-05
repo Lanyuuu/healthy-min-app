@@ -1,9 +1,9 @@
 <template>
-  <h1>分类列表</h1>
-  <el-scrollbar>
-    <el-table :data="data.items" style="width: 100%">
-    <el-table-column prop="_id" label="ID" />
-    <el-table-column prop="title" label="标题" />
+  <h1>推荐饮食列表</h1>
+  <el-table :data="data.items" style="width: 100%">
+    <el-table-column prop="_id" label="推荐饮食ID" />
+    <el-table-column prop="name" label="昵称" />
+    <el-table-column prop="kind" label="种类" />
     <el-table-column label="操作">
       <template v-slot="scope">
         <el-button size="mini" @click="editCategory(scope.row._id)">
@@ -15,7 +15,6 @@
       </template>
     </el-table-column>
   </el-table>
-  </el-scrollbar>
 </template>
 <!-- 
   1.使用TypeScript语言，
@@ -42,7 +41,7 @@ const data = reactive({
 // 异步获取列表数据
 async function getItem() {
   // 从服务端获取列表数据
-  const req = await http.get("/rest/articles");
+  const req = await http.get("/currency/ranks");
   // 把列表数据保存到items，方便后续使用
   data.items = req.data;
 }
@@ -54,13 +53,13 @@ const router = useRouter();
 // 能跳转到需要编辑行，编辑页面方法
 function editCategory(id: string) {
   // 使用router跳转到行id所在的页面
-  router.push(`/articles/edit/${id}`);
+  router.push(`/ranks/edit/${id}`);
 }
 
 // 删除点击时所在行的方法
-async function removeCategory(row: { title: string; _id: string }) {
+async function removeCategory(row: { username: string; _id: string }) {
   // 弹出一个警告框
-  ElMessageBox.confirm(`你是否要删除 ${row.title} 文章?`, "警告", {
+  ElMessageBox.confirm(`你是否要删除 ${row.username} 食物?`, "警告", {
     // 把警告框确认文本为 确认
     confirmButtonText: "确认",
     // 警告框取消文本为 取消
@@ -71,7 +70,7 @@ async function removeCategory(row: { title: string; _id: string }) {
     // 若确认，则删除 -异步等待，不阻塞其他函数运行
     .then(async () => {
       // 等待服务器删除行
-      await http.delete(`/rest/articles/${row._id}`);
+      await http.delete(`/currency/ranks/${row._id}`);
       // 更新列表
       getItem();
       // 弹出消息提示

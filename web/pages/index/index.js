@@ -1,35 +1,45 @@
 var wxCharts = require('../../utils/wxcharts.js');
 var Api = require('../../utils/api.js');
 var columnChart = null;
-var targetData = [0,0,0,0];
-var currentData = [0,0,0,0];
+var targetData = [0, 0, 0, 0];
+var currentData = [0, 0, 0, 0];
 
 Page({
   data: {
     //运动列表
-    sports: ["静坐", "轻度运动", "中度运动", "重度运动","高强度运动"],
+    sports: ["静坐", "轻度运动", "中度运动", "重度运动", "高强度运动"],
     sportsVal: [1.2, 1.37, 1.55, 1.73, 1.9],
-    sportIndex:0,
+    sportIndex: 0,
     //饮食类型
     tabs: ["早餐", "午餐", "晚餐", "零食"],
     //列表切换
     TabCur: 0,
     //食用列表
-    eat:{date:"",uid:"",eat_score:0,breakfast:[],lunch:[],dinner:[],snacks:[],score:{},exercise:1.37},
+    eat: {
+      date: "",
+      uid: "",
+      eat_score: 0,
+      breakfast: [],
+      lunch: [],
+      dinner: [],
+      snacks: [],
+      score: {},
+      exercise: 1.37
+    },
 
-    ListTouchStart:0,
-    ListTouchDirection:"",
-    modalName:null,
+    ListTouchStart: 0,
+    ListTouchDirection: "",
+    modalName: null,
   },
   tabSelect(e) {
     this.setData({
       TabCur: e.currentTarget.dataset.id
     })
   },
-  onShareAppMessage(o){
+  onShareAppMessage(o) {
 
   },
-  onShow:function(){
+  onShow: function () {
     var openid = wx.getStorageSync("openid")
     if (openid === "") {
       console.log("onShow no openid")
@@ -37,7 +47,7 @@ Page({
     }
     this.indexData()
   },
-  onLoad:function (e) {
+  onLoad: function (e) {
     var openid = wx.getStorageSync("openid")
     if (openid !== "") {
       return
@@ -45,18 +55,22 @@ Page({
     //登录
     var that = this
     wx.login({
-      success (res) {
+      success(res) {
         //请求后端登录
         wx.request({
-          url: Api.wxLogin({code: res.code}),
-          success: function(res) {
+          url: Api.wxLogin({
+            code: res.code
+          }),
+          success: function (res) {
             console.log(res.data)
             wx.setStorageSync("openid", res.data.openid)
             //新用户引导填充信息
-            if (res.data.height===0 || res.data.weight===0) {
-              wx.redirectTo({url:"/pages/info/info"})
-            }else{
-              if(that.data.eat.uid === "") {
+            if (res.data.height === 0 || res.data.weight === 0) {
+              wx.redirectTo({
+                url: "/pages/info/info"
+              })
+            } else {
+              if (that.data.eat.uid === "") {
                 //登录成功获取首页数据. 防止和onShow重复拉取，因为先执行onShow
                 that.indexData()
               }
@@ -64,8 +78,8 @@ Page({
           },
           fail(res) {
             wx.showToast({
-              title:"服务器出错",
-              icon:"none",
+              title: "服务器出错",
+              icon: "none",
             })
           }
         })
@@ -79,31 +93,31 @@ Page({
     //获取数据
     var that = this
     wx.request({
-      url:Api.Eat(),
+      url: Api.Eat(),
       success(res) {
         if (res.data.error_code) {
-          console.log("request error ",res.data)
+          console.log("request error ", res.data)
           return
         }
 
         var tempTabs = ["早餐", "午餐", "晚餐", "零食"]
         if (res.data.breakfast.length > 0) {
-          tempTabs[0] += "("+ res.data.breakfast.length +")"
+          tempTabs[0] += "(" + res.data.breakfast.length + ")"
         }
         if (res.data.lunch.length > 0) {
-          tempTabs[1] += "("+ res.data.lunch.length +")"
+          tempTabs[1] += "(" + res.data.lunch.length + ")"
         }
         if (res.data.dinner.length > 0) {
-          tempTabs[2] += "("+ res.data.dinner.length +")"
+          tempTabs[2] += "(" + res.data.dinner.length + ")"
         }
         if (res.data.snacks.length > 0) {
-          tempTabs[3] += "("+ res.data.snacks.length +")"
+          tempTabs[3] += "(" + res.data.snacks.length + ")"
         }
 
         that.setData({
-          eat:res.data,
-          sportIndex:that.data.sportsVal.indexOf(res.data.exercise),
-          tabs:tempTabs
+          eat: res.data,
+          sportIndex: that.data.sportsVal.indexOf(res.data.exercise),
+          tabs: tempTabs
         })
         targetData = [res.data.score.calorie_target, res.data.score.fat_target, res.data.score.carbohydrate_target, res.data.score.protein_target]
         currentData = [res.data.score.calorie_today, res.data.score.fat_today, res.data.score.carbohydrate_today, res.data.score.protein_today]
@@ -117,25 +131,27 @@ Page({
       fail(res) {
         console.log(res)
         wx.showToast({
-          title:"服务器出错",
-          icon:"none"
+          title: "服务器出错",
+          icon: "none"
         })
       }
     })
   },
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     console.log("pull down")
     this.indexData();
   },
-  bindSportChange : function(e) {
+  bindSportChange: function (e) {
     this.setData({
-      sportIndex:e.detail.value
+      sportIndex: e.detail.value
     })
     var exerVal = this.data.sportsVal[e.detail.value]
     wx.request({
-      url:Api.Exercise(),
-      method:"POST",
-      data:{"exercise":exerVal},
+      url: Api.Exercise(),
+      method: "POST",
+      data: {
+        "exercise": exerVal
+      },
       success(res) {
         console.log(res)
         //重新渲染数据
@@ -143,8 +159,8 @@ Page({
       },
       fail(res) {
         wx.showToast({
-          title:"服务器出错",
-          icon:"none",
+          title: "服务器出错",
+          icon: "none",
         })
       }
     })
@@ -216,7 +232,7 @@ Page({
   // ListTouch计算滚动
   ListTouchEnd(e) {
     //console.log("end",e,this.data.ListTouchDirection)
-    if (this.data.ListTouchDirection ==='left'){
+    if (this.data.ListTouchDirection === 'left') {
       this.setData({
         modalName: e.currentTarget.dataset.target
       })
@@ -230,31 +246,51 @@ Page({
     })
   },
   eatDelete(e) {
-    console.log("del",e)
+    console.log("del", e)
     var that = this
+    const {
+      eatType,
+      index
+    } = e.target.dataset;
+    const eatData = that.data.eat;
+    switch (eatType) {
+      case 0:
+        eatData.breakfast.splice(index, 1);
+        break;
+      case 1:
+        eatData.lunch.splice(index, 1);
+        break;
+      case 2:
+        eatData.dinner.splice(index, 1);
+        break;
+      default:
+        eatData.snacks.splice(index, 1);
+        break;
+    }
     wx.request({
-      url:Api.Eat({eat_id:e.currentTarget.dataset.eatId}),
-      method:"DELETE",
+      url: Api.Eat(),
+      method: "PUT",
+      data: eatData,
       success(res) {
         console.log(res)
         that.indexData()
       },
       fail(res) {
         wx.showToast({
-          title:"服务器出错",
-          icon:"none",
+          title: "服务器出错",
+          icon: "none",
         })
       }
     })
   },
   goToSearch(e) {
     wx.navigateTo({
-      url:"/pages/search/search?eat_type=0"
+      url: "/pages/search/search?eat_type=0"
     })
   },
-  goToEatReport(e){
+  goToEatReport(e) {
     wx.navigateTo({
-      url:"/pages/eat-report/eat-report"
+      url: "/pages/eat-report/eat-report"
     })
   }
 });

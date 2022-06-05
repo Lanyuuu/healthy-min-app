@@ -64,24 +64,22 @@ const data = reactive({
   headers: { Authorization: `Bearer ${localStorage.token || ""}` },
 });
 
-
-
 const props = defineProps({
   id: {},
 });
 
 async function save(): Promise<void> {
   if (props.id) {
-    await http.put(`/users/${props.id}`, data.model);
+    await http.put(`/currency/users/${props.id}`, data.model);
   } else {
-    await http.post("/users", data.model);
+    await http.post("/currency/users", data.model);
   }
   router.push("/users/list");
   ElMessage("保存成功!");
 }
 
 async function getEditName(): Promise<void> {
-  const res = await http.get(`/users/${props.id}`);
+  const res = await http.get(`/currency/users/${props.id}`);
   data.model = res.data;
 }
 props.id && getEditName();

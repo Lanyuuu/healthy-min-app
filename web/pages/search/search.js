@@ -1,42 +1,46 @@
 var Api = require('../../utils/api.js');
-var erWeiMa = ['QR_CODE','DATA_MATRIX','PDF_417','WX_CODE']
+var erWeiMa = ['QR_CODE', 'DATA_MATRIX', 'PDF_417', 'WX_CODE']
 
 Page({
-    onShareAppMessage(o){
+  onShareAppMessage(o) {
 
-    },
+  },
   data: {
     inputShowed: true,
     inputVal: "",
-    result : {"total":0,"list":[]},
-    eatType:0,
-    eatRank:[],
-    eatCurrent:[]
+    result: {
+      "total": 0,
+      "type": 0,
+      "list": []
+    },
+    eatType: 0,
+    eatRank: [],
+    eatCurrent: []
   },
   onLoad(e) {
-    console.log("onload",e)
+    console.log("onload", e)
     if (e.eat_type) {
       this.setData({
-        eatType:e.eat_type
+        eatType: e.eat_type
       })
     }
 
     var that = this
     //获取热搜
     wx.request({
-      url:Api.EatRank(),
+      url: Api.EatRank(),
       success(res) {
         that.setData({
-          eatRank:res.data
+          eatRank: res.data
         })
       }
     })
 
     wx.request({
-      url:Api.EatCurrent(),
+      url: Api.EatCurrent(),
       success(res) {
         that.setData({
-          eatCurrent:res.data
+          eatCurrent: res.data
         })
       }
     })
@@ -50,7 +54,10 @@ Page({
     this.setData({
       inputVal: "",
       inputShowed: false,
-      result:{"total":0,"list":[]}
+      result: {
+        "total": 0,
+        "list": []
+      }
     });
   },
   clearInput: function () {
@@ -67,33 +74,41 @@ Page({
     });
     var that = this
     wx.request({
-      url: Api.search({q:e.detail.value}),
-      success: function(res) {
+      url: Api.search({
+        q: e.detail.value
+      }),
+      success: function (res) {
         console.log(res.data)
         that.setData({
-          result : res.data,
+          result: res.data,
           loadProgress: 100
         });
         wx.hideLoading()
       }
     })
   },
-  scan(e){
+  scan(e) {
     console.log("scan")
     var that = this
     wx.scanCode({
       success(res) {
         if (erWeiMa.indexOf(res.scanType) !== -1) {
           wx.showToast({
-            title:"请扫描商品条形码",
-            icon:"none"
+            title: "请扫描商品条形码",
+            icon: "none"
           })
-        }else{
+        } else {
           console.log(res.result)
           wx.request({
-            url:Api.scanCode({code:res.result}),
+            url: Api.scanCode({
+              code: res.result
+            }),
             success(res) {
-              var e = {detail:{value:res.data.name}}
+              var e = {
+                detail: {
+                  value: res.data.name
+                }
+              }
               that.inputTyping(e)
             }
           })

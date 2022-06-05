@@ -7,7 +7,7 @@
     </view>
 
     <view class="action">
-        <picker mode="date" bindchange="bindDate" start="2019-06-01" end="2022-06-16" value="{{date}}" >
+        <picker mode="date" bindchange="bindDate" start="2022-04-29" end="2023-04-29" value="{{date}}" >
             <button class="cu-btn bg-white shadow">{{date}}</button>
         </picker>
     </view>

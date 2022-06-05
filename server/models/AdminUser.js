@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
   username: { type: String },
+  avatar: { type: String },
   password: {
     // 字符串类型
     type: String,

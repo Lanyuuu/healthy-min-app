@@ -20,7 +20,7 @@
           :show-file-list="false"
           :on-success="afterUpload"
         >
-          <img v-if="data.model.avtar" :src="data.model.avtar" class="avatar" />
+          <img v-if="data.model.avatar" :src="data.model.avatar" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><plus /></el-icon>
         </el-upload>
       </el-form-item>
@@ -42,7 +42,7 @@ const router = useRouter();
 const data = reactive({
   model: {
     username: "",
-    avtar: "",
+    avatar: "",
     password: "",
   },
   headers: { Authorization: `Bearer ${localStorage.token || ""}` },
@@ -54,23 +54,23 @@ const props = defineProps({
 
 async function save(): Promise<void> {
   if (props.id) {
-    await http.put(`/rest/admin_users/${props.id}`, data.model);
+    await http.put(`/currency/admin_users/${props.id}`, data.model);
   } else {
-    await http.post("/rest/admin_users", data.model);
+    await http.post("/currency/admin_users", data.model);
   }
   router.push("/admin_users/list");
   ElMessage("保存成功!");
 }
 
 async function getEditName(): Promise<void> {
-  const res = await http.get(`/rest/admin_users/${props.id}`);
+  const res = await http.get(`/currency/admin_users/${props.id}`);
   data.model = res.data;
 }
 props.id && getEditName();
 
 // 图片上传后
 function afterUpload(res: { url: string }): void {
-  data.model.avtar = res.url;
+  data.model.avatar = res.url;
 }
 </script>
 

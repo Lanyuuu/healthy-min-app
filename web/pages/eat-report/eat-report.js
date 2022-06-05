@@ -15,7 +15,7 @@ var cholesterolRingChart = null
 
 Page({
   data: {
-    date:"2020-01-01",
+    date:"2022-04-30",
     calorieData: {
       "total": 1000,
       "series": [{"name": "米饭(500)", "data": 500}, {"name": "红烧肉", "data": 250}, {"name": "西红柿", "data": 100}, {"name": "西瓜", "data": 150}]
